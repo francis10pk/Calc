@@ -128,6 +128,7 @@ class ViewController: UIViewController {
             if currentIndex > 0 {
                 currentIndex -= 1
                 operationLabel.text = results[currentIndex].description
+                resultLabel.text = operation[currentIndex].description
             }
         }
         
@@ -140,6 +141,7 @@ class ViewController: UIViewController {
                 if currentIndex < results.count - 1 {
                     currentIndex += 1
                     operationLabel.text = results[currentIndex].description
+                    resultLabel.text = operation[currentIndex].description
             }
         }
     }
