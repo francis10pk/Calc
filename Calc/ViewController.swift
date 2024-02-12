@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTitles()
+        settitleOp()
         // Do any additional setup after loading the view.
     }
 
@@ -43,7 +44,23 @@ class ViewController: UIViewController {
     
     @IBOutlet var buttonsList: [UIButton]!
     
-    //var currentInput: String = ""
+    
+    
+    @IBOutlet weak var div: UIButton!
+    
+    
+    @IBOutlet weak var mult: UIButton!
+    
+    @IBOutlet weak var minus: UIButton!
+    
+    
+    @IBOutlet weak var sum: UIButton!
+    
+    
+    @IBOutlet weak var equal: UIButton!
+    
+    
+    @IBOutlet weak var poimt: UIButton!
     
     func currinput(_ text: String) -> (String) -> String {
         
@@ -58,6 +75,7 @@ class ViewController: UIViewController {
     
     var pointpressed = false
     var results = [Double]()
+    var operation = [String]()
     var currentIndex = 0
     var currentInput : String = ""
 
@@ -66,46 +84,87 @@ class ViewController: UIViewController {
         let input1 = currinput("")
         let title = sender.title(for: [])
         currentInput.append(input1(title!))
-        //currentInput.append(title!)
         resultLabel.text = currentInput
+        resultLabel.adjustsFontSizeToFitWidth = true
         if !currentInput.isEmpty{
             pointpressed = true
         }
         }
+    @IBAction func operatorPressed(_ sender: UIButton) {
+        if let resultText = resultLabel.text, !resultText.isEmpty {
+            if let lastCharacter = resultText.last, let _ = Int(String(lastCharacter)) {
+                currentInput.append(sender.currentTitle!)
+                resultLabel.text = currentInput
+                resultLabel.adjustsFontSizeToFitWidth = true
+            }
+        }
+        
+    }
 
     @IBAction func pressPoint(_ sender: Any) {
-        if pointpressed{
+        if pointpressed, let resultP = resultLabel.text, !resultP.isEmpty{
             currentInput.append(".")
             pointpressed = false
+            resultLabel.text = currentInput
         }
+
     }
     
     @IBAction func changeSign(_ sender: Any) {
-        var number = Double(currentInput)
-        number = number! * (-1)
+        toggleFirstCharacter()
     }
     
     
     @IBAction func clear(_ sender: Any) {
-        currentInput = "0"
+        currentInput = ""
+        resultLabel.text = ""
         operationLabel.text = ""
     }
     
 
     // Action to navigate to the previous result
     @IBAction func goToPreviousResult(_ sender: UIButton) {
-        if currentIndex > 0 {
-            currentIndex -= 1
+        if !results.isEmpty {
+            if currentIndex > 0 {
+                currentIndex -= 1
+                operationLabel.text = results[currentIndex].description
+            }
         }
+        
     }
 
 
     // Action to navigate to the next result
     @IBAction func goToNextResult(_ sender: UIButton) {
-        if currentIndex < results.count - 1 {
-            currentIndex += 1
+        if !results.isEmpty {
+                if currentIndex < results.count - 1 {
+                    currentIndex += 1
+                    operationLabel.text = results[currentIndex].description
+            }
         }
     }
+    
+    
+    @IBAction func equal(_ sender: UIButton) {
+        
+        if var resulting = resultLabel.text{
+            resulting.append("=")
+            if let result = calculate(resulting){
+                operationLabel.text = String(result)
+                currentInput = ""
+            }
+        }
+    }
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     func setTitles(){
@@ -118,15 +177,20 @@ class ViewController: UIViewController {
         }
     
     }
+    func settitleOp(){
+        sum.setTitle("+", for: [])
+        div.setTitle("/", for: [])
+        mult.setTitle("*", for: [])
+        minus.setTitle("-", for: [])
+        equal.setTitle("=", for: [])
+        poimt.setTitle(".", for: [])
+    }
     
     
-
-
     func calculate(_ expression: String) -> Double? {
         var currentNumber = ""
         var numbers = [Double]()
         var operations = [Character]()
-        //var (getResult, add, subtraction, multiplication, division) 
 
         for char in expression {
             if char.isNumber || char == "." {
@@ -143,59 +207,38 @@ class ViewController: UIViewController {
                 }
                 currentNumber = ""
 
+                // Perform the calculations using the calculation function
+                if let firstNumber = numbers.first {
+                    let (getResult, add, subtraction, multiplication, division) = calculation(firstNumber)
 
-                var result = numbers.first ?? 0
-                for (index, op) in operations.enumerated() {
-                    let nextNumber = numbers[index + 1]
-                    switch op {
-                    case "+":
-                        result += nextNumber
-                    case "-":
-                        result -= nextNumber
-                    case "*":
-                        result *= nextNumber
-                    case "/":
-                        result /= nextNumber
-                    default:
-                        break
+                    for (index, op) in operations.enumerated() {
+                        let nextNumber = numbers[index + 1]
+                        switch op {
+                        case "+":
+                            add(nextNumber)
+                        case "-":
+                            subtraction(nextNumber)
+                        case "*":
+                            multiplication(nextNumber)
+                        case "/":
+                            division(nextNumber)
+                        default:
+                            break
+                        }
                     }
+                    results.append(getResult())
+                    operation.append(currentInput)
+                    return getResult()
+                    
                 }
-                results.append(result)
-                
-                return result
             }
         }
-
 
         return nil
     }
-    
-    func updateResultLabel() {
-        if results.isEmpty {
-            resultLabel.text = "0"
-        } else {
-            if let result = calculate(String(currentInput)) {
-                
-                resultLabel.text = String(result)
-            } else {
-                
-                resultLabel.text = "Error"
-            }
-        }
-    }
+   
     
 
-
-    //to show inside the label when someone clicks up arrow
-    func accessMemory() -> Double?
-    {
-        if results.isEmpty{
-            return nil
-        }
-        else{
-            return results.last
-        }
-    }
     
     func calculation(_ num1: Double) -> (() -> Double, (Double) -> Void, (Double) -> Void, (Double) -> Void, (Double) -> Void) {
         var result = num1
@@ -224,10 +267,45 @@ class ViewController: UIViewController {
         return (getResult, add, subtraction, multiplication, division)
     }
     
-
+    //to show inside the label when someone clicks up arrow
+    func accessMemory() -> Double?
+    {
+        if results.isEmpty{
+            return nil
+        }
+        else{
+            return results.last
+        }
+    }
     
+    func updateResultLabel() {
+        if results.isEmpty {
+            resultLabel.text = "0"
+        } else {
+            if let result = calculate(String(currentInput)) {
+                
+                resultLabel.text = String(result)
+            } else {
+                
+                resultLabel.text = "Error"
+            }
+        }
+    }
     
-    
+    func toggleFirstCharacter() {
+        if var resultC = resultLabel.text ,let firstChar = resultC.first {
+            switch firstChar {
+            case "+":
+                resultC.removeFirst()
+                resultC.insert("-", at: resultC.startIndex)
+            case "-":
+                resultC.removeFirst()
+                resultC.insert("+", at: resultC.startIndex)
+            default:
+                resultC.insert("-", at: resultC.startIndex)
+            }
+        }
+    }
     
     
 }

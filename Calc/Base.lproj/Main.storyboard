@@ -35,6 +35,9 @@
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="x"/>
+                                <connections>
+                                    <action selector="operatorPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dFF-Ih-n3Q"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vIG-w7-4mZ">
                                 <rect key="frame" x="322" y="510" width="61" height="118"/>
@@ -44,6 +47,9 @@
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="-"/>
+                                <connections>
+                                    <action selector="operatorPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LPE-Wz-f3t"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nC-NY-kPU">
                                 <rect key="frame" x="322" y="636" width="61" height="118"/>
@@ -53,6 +59,9 @@
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="+"/>
+                                <connections>
+                                    <action selector="operatorPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2E4-M1-Rcj"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gju-pN-nim">
                                 <rect key="frame" x="322" y="762" width="61" height="118"/>
@@ -62,6 +71,9 @@
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="="/>
+                                <connections>
+                                    <action selector="equal:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nxb-AB-Qye"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJ7-lv-WpA">
                                 <rect key="frame" x="322" y="258" width="61" height="118"/>
@@ -71,6 +83,9 @@
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="÷"/>
+                                <connections>
+                                    <action selector="operatorPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="08F-rV-Fjw"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAp-vh-Yhy">
                                 <rect key="frame" x="133" y="510" width="91" height="118"/>
@@ -149,8 +164,8 @@
                                     <action selector="clear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rI9-X9-Jhp"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHY-Ij-MxV">
-                                <rect key="frame" x="40" y="158" width="311" height="78"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHY-Ij-MxV">
+                                <rect key="frame" x="40" y="78" width="311" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -236,7 +251,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpe-hE-tTo">
-                                <rect key="frame" x="40" y="72" width="311" height="78"/>
+                                <rect key="frame" x="38" y="164" width="311" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -247,6 +262,10 @@
                         <color key="backgroundColor" systemColor="labelColor"/>
                     </view>
                     <connections>
+                        <outlet property="div" destination="SJ7-lv-WpA" id="lcI-Yz-V6r"/>
+                        <outlet property="equal" destination="gju-pN-nim" id="fga-gA-9LK"/>
+                        <outlet property="minus" destination="vIG-w7-4mZ" id="xGF-zN-b8d"/>
+                        <outlet property="mult" destination="bCq-Kg-KWA" id="MNA-kO-5Z4"/>
                         <outlet property="num0" destination="mys-2L-IMh" id="gPj-xn-b20"/>
                         <outlet property="num1" destination="DNe-w6-rs4" id="8i0-dQ-rkf"/>
                         <outlet property="num2" destination="cFl-5j-lF0" id="FzN-By-Ecu"/>
@@ -258,7 +277,9 @@
                         <outlet property="num8" destination="07f-Q2-NUy" id="lA1-yG-xBr"/>
                         <outlet property="num9" destination="u0n-2Z-NpG" id="gTW-Y6-x62"/>
                         <outlet property="operationLabel" destination="rpe-hE-tTo" id="wJO-xi-vx7"/>
+                        <outlet property="poimt" destination="E49-bz-zAO" id="QeA-63-hWv"/>
                         <outlet property="resultLabel" destination="RHY-Ij-MxV" id="skB-t0-hKI"/>
+                        <outlet property="sum" destination="9nC-NY-kPU" id="reu-4T-rc8"/>
                         <outletCollection property="buttonsList" destination="mys-2L-IMh" collectionClass="NSMutableArray" id="X6V-dM-hdF"/>
                         <outletCollection property="buttonsList" destination="DNe-w6-rs4" collectionClass="NSMutableArray" id="Xh5-um-yQ5"/>
                         <outletCollection property="buttonsList" destination="cFl-5j-lF0" collectionClass="NSMutableArray" id="Yun-ji-ZxI"/>
@@ -273,7 +294,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-43.478260869565219" y="-27.455357142857142"/>
+            <point key="canvasLocation" x="-44.859813084112147" y="-27.861771058315338"/>
         </scene>
     </scenes>
     <resources>
