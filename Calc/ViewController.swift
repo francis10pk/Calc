@@ -8,14 +8,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTitles()
         settitleOp()
         // Do any additional setup after loading the view.
     }
-
+    
     //closure
     @IBOutlet weak var resultLabel: UILabel!
     
@@ -68,7 +68,7 @@ class ViewController: UIViewController {
             return text + newinput
         }
     }
-
+    
     
     
     
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
     var operation = [String]()
     var currentIndex = 0
     var currentInput : String = ""
-
+    
     @IBAction func digitPressed(_ sender: UIButton) {
         
         let input1 = currinput("")
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         if !currentInput.isEmpty{
             pointpressed = true
         }
-        }
+    }
     @IBAction func operatorPressed(_ sender: UIButton) {
         if let resultText = resultLabel.text, !resultText.isEmpty {
             if let lastCharacter = resultText.last, let _ = Int(String(lastCharacter)) {
@@ -100,19 +100,22 @@ class ViewController: UIViewController {
         }
         
     }
-
+    
     @IBAction func pressPoint(_ sender: Any) {
         if pointpressed, let resultP = resultLabel.text, !resultP.isEmpty{
             currentInput.append(".")
             pointpressed = false
             resultLabel.text = currentInput
         }
-
+        
     }
     
     @IBAction func changeSign(_ sender: Any) {
-        toggleFirstCharacter()
+        guard !currentInput.isEmpty else { return }
+            toggleFirstCharacter(for: &currentInput)
+            resultLabel.text = currentInput
     }
+    
     
     
     @IBAction func clear(_ sender: Any) {
@@ -121,7 +124,7 @@ class ViewController: UIViewController {
         operationLabel.text = ""
     }
     
-
+    
     // Action to navigate to the previous result
     @IBAction func goToPreviousResult(_ sender: UIButton) {
         if !results.isEmpty {
@@ -133,15 +136,15 @@ class ViewController: UIViewController {
         }
         
     }
-
-
+    
+    
     // Action to navigate to the next result
     @IBAction func goToNextResult(_ sender: UIButton) {
         if !results.isEmpty {
-                if currentIndex < results.count - 1 {
-                    currentIndex += 1
-                    operationLabel.text = results[currentIndex].description
-                    resultLabel.text = operation[currentIndex].description
+            if currentIndex < results.count - 1 {
+                currentIndex += 1
+                operationLabel.text = results[currentIndex].description
+                resultLabel.text = operation[currentIndex].description
             }
         }
     }
@@ -149,16 +152,17 @@ class ViewController: UIViewController {
     
     @IBAction func equal(_ sender: UIButton) {
         
-        if var resulting = resultLabel.text{
-            resulting.append("=")
-            if let result = calculate(resulting){
-                operationLabel.text = String(result)
-                currentInput = ""
+        if var resulting = resultLabel.text {
+                resulting.append("=")
+                if let result = calculate(resulting) {
+                    // Update currentInput to the result of the previous calculation
+                    currentInput = String(result)
+                    resultLabel.text = currentInput
+                }
             }
-        }
     }
     
-
+    
     
     
     
@@ -177,7 +181,7 @@ class ViewController: UIViewController {
             count += 1
             
         }
-    
+        
     }
     func settitleOp(){
         sum.setTitle("+", for: [])
@@ -190,11 +194,17 @@ class ViewController: UIViewController {
     
     
     func calculate(_ expression: String) -> Double? {
+        var newExpression = expression
+        if expression.starts(with: "-") || expression.starts(with: "+"){
+            newExpression = "0" + expression
+        }
+            
+        
         var currentNumber = ""
         var numbers = [Double]()
         var operations = [Character]()
 
-        for char in expression {
+        for char in newExpression {
             if char.isNumber || char == "." {
                 currentNumber.append(char)
             } else if "+-*/".contains(char) {
@@ -231,41 +241,42 @@ class ViewController: UIViewController {
                     results.append(getResult())
                     operation.append(currentInput)
                     return getResult()
-                    
+
                 }
             }
         }
 
         return nil
     }
-   
-    
 
+
+
+    
     
     func calculation(_ num1: Double) -> (() -> Double, (Double) -> Void, (Double) -> Void, (Double) -> Void, (Double) -> Void) {
         var result = num1
-    
+        
         let add: (Double) -> Void = { num2 in
             result += num2
         }
-    
+        
         let multiplication: (Double) -> Void = { num2 in
             result *= num2
         }
-    
+        
         let subtraction: (Double) -> Void = { num2 in
             result -= num2
         }
-    
+        
         let division: (Double) -> Void = { num2 in
             result /= num2
         }
-    
-    
+        
+        
         let getResult: () -> Double = {
             return result
         }
-    
+        
         return (getResult, add, subtraction, multiplication, division)
     }
     
@@ -279,39 +290,62 @@ class ViewController: UIViewController {
             return results.last
         }
     }
-    
     func updateResultLabel() {
-        if results.isEmpty {
+        if currentInput.isEmpty {
             resultLabel.text = "0"
         } else {
             if let result = calculate(String(currentInput)) {
-                
-                resultLabel.text = String(result)
+                // Update the current input to show the result
+                currentInput = String(result)
+                resultLabel.text = currentInput
             } else {
-                
                 resultLabel.text = "Error"
             }
         }
     }
+
+//    func updateResultLabel() {
+//        if results.isEmpty {
+//            resultLabel.text = "0"
+//        } else {
+//            if let result = calculate(String(currentInput)) {
+//
+//                resultLabel.text = String(result)
+//            } else {
+//
+//                resultLabel.text = "Error"
+//            }
+//        }
+//    }
     
-    func toggleFirstCharacter() {
-        if var resultC = resultLabel.text ,let firstChar = resultC.first {
-            switch firstChar {
-            case "+":
-                resultC.removeFirst()
-                resultC.insert("-", at: resultC.startIndex)
-            case "-":
-                resultC.removeFirst()
-                resultC.insert("+", at: resultC.startIndex)
-            default:
-                resultC.insert("-", at: resultC.startIndex)
-            }
+    //    func toggleFirstCharacter() {
+    //        if var resultC = resultLabel.text ,let firstChar = resultC.first {
+    //            switch firstChar {
+    //            case "+":
+    //                resultC.removeFirst()
+    //                resultC.insert("-", at: resultC.startIndex)
+    //            case "-":
+    //                resultC.removeFirst()
+    //                resultC.insert("+", at: resultC.startIndex)
+    //            default:
+    //                resultC.insert("-", at: resultC.startIndex)
+    //            }
+    //        }
+    //    }
+    func toggleFirstCharacter(for string: inout String) {
+        guard !string.isEmpty else { return }
+        switch string.first! {
+        case "+":
+            string.removeFirst()
+            string.insert("-", at: string.startIndex)
+        case "-":
+            string.removeFirst()
+            string.insert("+", at: string.startIndex)
+        default:
+            string.insert("-", at: string.startIndex)
         }
     }
-    
-    
 }
-    
     
     
     
